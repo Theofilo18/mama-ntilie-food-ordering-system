@@ -1,0 +1,7 @@
+<?php
+require_once 'db.php'; require_role('customer');
+$result = $conn->query("SELECT u.id,u.name,u.location,COUNT(m.id) AS meal_count FROM users u LEFT JOIN menu_items m ON m.vendor_id=u.id AND m.is_available=1 WHERE u.role='vendor' GROUP BY u.id,u.name,u.location ORDER BY u.name");
+?>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Food vendors | Mama Ntilie</title><link rel="stylesheet" href="style.css"></head><body><header class="topbar"><a class="brand" href="customer_dashboard.php">🍲 Mama Ntilie</a><a href="orders.php">My orders</a></header><main class="page-wrap"><a class="back-link" href="customer_dashboard.php">← Dashboard</a><span class="eyebrow">DISCOVER LOCAL FOOD</span><h1>Meet the food vendors</h1><p class="muted">Choose a vendor to explore meals currently available.</p><div class="vendor-grid">
+<?php if ($result->num_rows): while($vendor=$result->fetch_assoc()): ?><a class="vendor-card" href="menu_view.php?vendor_id=<?= (int)$vendor['id'] ?>"><div class="vendor-icon">🍳</div><div><h2><?= e($vendor['name']) ?></h2><p><?= e($vendor['location'] ?: 'Kigamboni') ?></p><small><?= (int)$vendor['meal_count'] ?> available menu item(s)</small></div><span class="arrow">→</span></a><?php endwhile; else: ?><div class="empty-state">No vendors have joined yet. Please check again soon.</div><?php endif; ?>
+</div></main></body></html>

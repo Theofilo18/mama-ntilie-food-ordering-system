@@ -1,0 +1,17 @@
+# Local secrets / environment files
+.env
+.env.*
+!.env.example
+
+# User-uploaded meal photos (keep folder structure)
+uploads/*
+!uploads/.gitkeep
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local database configuration
+config.php
